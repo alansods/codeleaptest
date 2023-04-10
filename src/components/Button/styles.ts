@@ -17,10 +17,16 @@ export const Button = styled.button<ButtonProps>`
   cursor: pointer;
   margin-top: 22px;
   margin-left: auto;
+  user-select: none;
 
   :hover {
     background-color: ${props => props.theme["primaryHover"]};
     transition: background-color 0.2s ease;
+  }
+
+  :disabled {
+    background-color: ${props => props.theme["primaryDisabled"]};
+    cursor: not-allowed;
   }
 
   ${props => props.variant === 'red' && css`

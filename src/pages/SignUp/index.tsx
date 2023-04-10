@@ -1,12 +1,18 @@
-import { Container, Card } from "./styles";
-import { Button } from "../../components/Button/styles";
 import { useState } from "react";
 
-export default function SignUp() {
-  const [inputValue, setInputValue] = useState("");
+import { Container, Card } from "./styles";
+import { Button } from "../../components/Button/styles";
 
-  const handleInputValue = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
+import { useDispatch } from "react-redux";
+import { changeUser } from "../../redux/userSlice";
+
+export default function SignUp() {
+  const [inputValue, setInputValue] = useState<string>("");
+  const dispatch = useDispatch();
+
+  const handleLogin = (): void => {
+    console.log("LOGIN");
+    dispatch(changeUser(inputValue));
   };
 
   return (
@@ -16,9 +22,13 @@ export default function SignUp() {
 
         <label>Please enter your username</label>
 
-        <input type="text" placeholder="Alan Santos" value={inputValue} onChange={handleInputValue}/>
+        <input
+          type="text"
+          placeholder="Type your name"
+          onChange={(e) => setInputValue(e.target.value)}
+        />
 
-        <Button>Enter</Button>
+        <Button onClick={handleLogin} disabled={!inputValue}>Enter</Button>
       </Card>
     </Container>
   );
