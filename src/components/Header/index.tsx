@@ -1,4 +1,4 @@
-import { HeaderStyle } from "./styles";
+import { HeaderStyle, ContainerButtons, ContainerUser, LogOut } from "./styles";
 
 import { useSelector } from "react-redux";
 import { selectUser } from "../../redux/userSlice";
@@ -6,12 +6,12 @@ import { selectUser } from "../../redux/userSlice";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/userSlice";
 
+import UserIcon from "../../assets/user-icon.svg";
 
 export default function Header() {
-
   const dispatch = useDispatch();
 
-  const { name } = useSelector(selectUser)
+  const { name } = useSelector(selectUser);
 
   const handleLogout = (): void => {
     console.log("handleLogout");
@@ -21,11 +21,15 @@ export default function Header() {
   return (
     <HeaderStyle>
       <h3>CodeLeapNetwork</h3>
-      <div>
-        <strong>{ name }</strong>
+
+      <ContainerButtons>
+        <ContainerUser>
+          <img src={UserIcon} height={12} />
+          <strong>{name}</strong>
+        </ContainerUser>
         <span> | </span>
-        <span onClick={handleLogout}> Sair </span>
-      </div>
+        <LogOut onClick={handleLogout}> Sair </LogOut>
+      </ContainerButtons>
     </HeaderStyle>
   );
 }

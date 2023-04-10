@@ -37,3 +37,13 @@ export const ContainerAuthor = styled.div`
   margin-bottom: 16px;
   color: ${(props) => props.theme["gray-500"]};
 `;
+
+export const ContainerIcons = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0 34px;
+
+  img {
+    cursor: pointer;
+  }
+`;

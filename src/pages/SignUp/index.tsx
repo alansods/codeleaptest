@@ -28,7 +28,7 @@ export default function SignUp() {
           onChange={(e) => setInputValue(e.target.value)}
         />
 
-        <Button onClick={handleLogin} disabled={!inputValue}>Enter</Button>
+        <Button uppercase alignRight onClick={handleLogin} disabled={!inputValue}>Enter</Button>
       </Card>
     </Container>
   );

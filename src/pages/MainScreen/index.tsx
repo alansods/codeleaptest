@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { selectListPosts } from "../../redux/listPostsSlice";
 
 export interface PostProps {
-  id: number;
+  id: string;
   title: string;
   username: string;
   created_datetime: string;

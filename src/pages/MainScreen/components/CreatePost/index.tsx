@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { CardCreatePost } from "./styles";
 import { Button } from "../../../../components/Button/styles";
 
@@ -23,7 +24,7 @@ export default function CreatePost() {
     const newDate = new Date().toString()
 
     const newPost = {
-      id: 1,
+      id: uuidv4(),
       username: name,
       created_datetime: newDate,
       title: title,
@@ -31,6 +32,9 @@ export default function CreatePost() {
     }
 
     dispatch(addPost(newPost));
+
+    setTitle("")
+    setContent("")
   };
 
   return (
@@ -38,12 +42,12 @@ export default function CreatePost() {
       <h3>What's on your mind?</h3>
 
       <label>Title</label>
-      <input type="text" placeholder="Hello World" onChange={(e) => setTitle(e.target.value)} />
+      <input type="text" placeholder="Hello World" value={title} onChange={(e) => setTitle(e.target.value)} />
 
       <label>Content</label>
-      <textarea placeholder="Content here" rows={4} onChange={(e) => setContent(e.target.value)} />
+      <textarea placeholder="Content here" rows={4} value={content} onChange={(e) => setContent(e.target.value)} />
 
-      <Button onClick={handleCreatePost}>Create</Button>
+      <Button uppercase alignRight onClick={handleCreatePost} disabled={!title || !content}>Create</Button>
     </CardCreatePost>
   );
 }

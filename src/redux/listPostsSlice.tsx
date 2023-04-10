@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Post {
-  id: number;
+  id: string;
   username: string;
   created_datetime: string;
   title: string;
@@ -31,7 +31,7 @@ export const listPostsReducer = createSlice({
         state.listPosts[index] = action.payload;
       }
     },
-    deletePost: (state, action: PayloadAction<number>) => {
+    deletePost: (state, action: PayloadAction<string>) => {
       state.listPosts = state.listPosts.filter(
         (post) => post.id !== action.payload
       );

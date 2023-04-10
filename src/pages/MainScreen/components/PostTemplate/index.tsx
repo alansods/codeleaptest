@@ -1,17 +1,29 @@
+import { useState } from "react";
+
+import Modal from "../../../../components/Modal"
+import EditModal from "../../../../components/EditModal"
+
 import {
   Container,
   TitleHeader,
   ContainerAuthor,
   ContainerText,
+  ContainerIcons,
 } from "./styles";
+
+import DeleteIcon from "../../../../assets/delete-icon.svg"
+import EditIcon from "../../../../assets/edit-icon.svg"
 
 import moment from 'moment';
 
 import { useDispatch } from "react-redux";
-import { deletePost } from "../../../../redux/listPostsSlice";
+import { deletePost, editPost } from "../../../../redux/listPostsSlice";
+
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../../redux/userSlice";
 
 interface PostProps {
-  id: number;
+  id: string;
   title: string;
   username: string;
   created_datetime: string;
@@ -19,6 +31,8 @@ interface PostProps {
 }
 
 export default function PostTemplate({id, title, username, created_datetime, content}:PostProps) {
+
+  const { name } = useSelector(selectUser);
 
   const dispatch = useDispatch();
 
@@ -28,20 +42,31 @@ export default function PostTemplate({id, title, username, created_datetime, con
     dispatch(deletePost(id));
   };
 
-  const postDate = created_datetime;
-
   const date = new Date(created_datetime);
+
+  const [isOpen, setIsOpen] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
 
   return (
 
     <Container>
 
+      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} handleDeletePost={handleDeletePost} />
+
+      <EditModal isEditing={isEditing} onClose={() => setIsEditing(false)} id={id} title={title} username={username} created_datetime={created_datetime} content={content}/>
+
       <TitleHeader>
         <h3>{ title }</h3>
-        <div>
-          <span onClick={handleDeletePost}> Erase </span>
-          <span> Edit </span>
-        </div>
+
+        { name === username &&
+
+        <ContainerIcons>
+          <img src={DeleteIcon} alt="Delete" onClick={() => setIsOpen(true)} />
+          <img src={EditIcon} alt="Edit" onClick={() => setIsEditing(true)} />
+        </ContainerIcons>
+
+        }
+
       </TitleHeader>
 
       <ContainerText>
@@ -54,6 +79,7 @@ export default function PostTemplate({id, title, username, created_datetime, con
           { content }
         </p>
       </ContainerText>
+
     </Container>
   );
 }
