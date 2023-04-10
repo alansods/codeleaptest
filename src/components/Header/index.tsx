@@ -28,7 +28,7 @@ export default function Header() {
           <strong>{name}</strong>
         </ContainerUser>
         <span> | </span>
-        <LogOut onClick={handleLogout}> Sair </LogOut>
+        <LogOut onClick={handleLogout}> Logout </LogOut>
       </ContainerButtons>
     </HeaderStyle>
   );

@@ -17,7 +17,7 @@ import EditIcon from "../../../../assets/edit-icon.svg"
 import moment from 'moment';
 
 import { useDispatch } from "react-redux";
-import { deletePost, editPost } from "../../../../redux/listPostsSlice";
+import { deletePost } from "../../../../redux/listPostsSlice";
 
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../../redux/userSlice";

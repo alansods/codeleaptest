@@ -9,19 +9,39 @@ export const Overlay = styled.div`
   z-index: 1000;
 `;
 
+export const ContainerModal = styled.div`
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
 export const ModalCard = styled.div`
   width: 660px;
-  position: fixed;
-  top: 50%;
-  left: 50%;
   padding: 24px;
-  transform: translate(-50%, -50%);
+  position: fixed;
   background-color: ${(props) => props.theme["white"]};
   border-radius: 16px;
   z-index: 1000;
+  animation: showAnimation 300ms ease;
+
+  @keyframes showAnimation {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
 
   @media (max-width: 600px) {
-    max-width: 370px
+    max-width: 360px;
+  }
+
+  @media (max-width: 600px) {
+    max-width: 360px
   }
 `;
 
