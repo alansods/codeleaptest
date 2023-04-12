@@ -86,7 +86,7 @@ export default function Modal({
             <Button variant="outline" onClick={onClose}>
               Cancel
             </Button>
-            <Button variant="green" onClick={handleEditPost}>
+            <Button variant="green" onClick={handleEditPost} disabled={!newTitle || !newContent}>
               Save
             </Button>
           </ContainerButton>
