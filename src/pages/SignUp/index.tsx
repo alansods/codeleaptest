@@ -13,6 +13,8 @@ export default function SignUp() {
   const handleLogin = (): void => {
     console.log("LOGIN");
     dispatch(changeUser(inputValue));
+
+    localStorage.setItem("codeLeapUser",inputValue);
   };
 
   return (

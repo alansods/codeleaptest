@@ -16,6 +16,8 @@ export default function Header() {
   const handleLogout = (): void => {
     console.log("handleLogout");
     dispatch(logout());
+
+    localStorage.removeItem("codeLeapUser");
   };
 
   return (

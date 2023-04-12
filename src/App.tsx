@@ -13,22 +13,29 @@ import { selectUser } from "./redux/userSlice";
 import { useDispatch } from "react-redux";
 import { addPost } from "./redux/listPostsSlice";
 
-import { getFirestore, collection, getDocs } from 'firebase/firestore'
+import { getFirestore, collection, getDocs } from "firebase/firestore";
+
+import { changeUser } from "./redux/userSlice";
 
 export function App() {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const savedUser = localStorage.getItem("codeLeapUser");
+
+    if (savedUser) {
+      dispatch(changeUser(savedUser));
+    }
+
     async function loadPosts() {
       // Crie uma referência para a coleção
       const db = getFirestore();
-      const collectionRef = collection(db, 'posts');
+      const collectionRef = collection(db, "posts");
 
       // Use o método getDocs para obter todos os documentos na coleção
       try {
         const querySnapshot = await getDocs(collectionRef);
-        querySnapshot.forEach((docSnapshot:any) => {
+        querySnapshot.forEach((docSnapshot: any) => {
           if (docSnapshot.exists()) {
             // Acesse o valor do array usando a notação de ponto ou colchetes
             const arrayData = docSnapshot.data(); // Notação de ponto
@@ -37,13 +44,12 @@ export function App() {
             console.log("arrayData: " + JSON.stringify(arrayData)); // Saída: Array com os dados do array no Firestore
 
             dispatch(addPost(arrayData));
-
           } else {
-            console.log('O documento não existe');
+            console.log("O documento não existe");
           }
         });
       } catch (error) {
-        console.error('Erro ao obter os documentos:', error);
+        console.error("Erro ao obter os documentos:", error);
       }
     }
     loadPosts();
