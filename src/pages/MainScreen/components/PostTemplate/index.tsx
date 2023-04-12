@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-import Modal from "../../../../components/Modal"
-import EditModal from "../../../../components/EditModal"
+import Modal from "../../../../components/Modal";
+import EditModal from "../../../../components/EditModal";
 
 import {
   Container,
@@ -11,16 +11,19 @@ import {
   ContainerIcons,
 } from "./styles";
 
-import DeleteIcon from "../../../../assets/delete-icon.svg"
-import EditIcon from "../../../../assets/edit-icon.svg"
+import DeleteIcon from "../../../../assets/delete-icon.svg";
+import EditIcon from "../../../../assets/edit-icon.svg";
 
-import moment from 'moment';
+import moment from "moment";
 
 import { useDispatch } from "react-redux";
 import { deletePost } from "../../../../redux/listPostsSlice";
 
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../../redux/userSlice";
+
+import { db } from "../../../../actions/firebaseConnection"
+import { doc, deleteDoc } from "firebase/firestore";
 
 interface PostProps {
   id: string;
@@ -30,56 +33,79 @@ interface PostProps {
   content: string;
 }
 
-export default function PostTemplate({id, title, username, created_datetime, content}:PostProps) {
-
+export default function PostTemplate({
+  id,
+  title,
+  username,
+  created_datetime,
+  content,
+}: PostProps) {
   const { name } = useSelector(selectUser);
 
   const dispatch = useDispatch();
 
-  const handleDeletePost = (): void => {
+  const handleDeletePost = async () => {
     console.log("DELETE");
+    console.log("id:" + id);
 
-    dispatch(deletePost(id));
+    try {
+      dispatch(deletePost(id));
+
+      const docRef = doc(db, "posts", id)
+      await deleteDoc(docRef);
+
+      console.log("DELETADO");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const date = new Date(created_datetime);
 
-  const [isOpen, setIsOpen] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
-
     <Container>
+      <Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        handleDeletePost={handleDeletePost}
+      />
 
-      <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} handleDeletePost={handleDeletePost} />
-
-      <EditModal isEditing={isEditing} onClose={() => setIsEditing(false)} id={id} title={title} username={username} created_datetime={created_datetime} content={content}/>
+      <EditModal
+        isEditing={isEditing}
+        onClose={() => setIsEditing(false)}
+        id={id}
+        title={title}
+        username={username}
+        created_datetime={created_datetime}
+        content={content}
+      />
 
       <TitleHeader>
-        <h3>{ title }</h3>
+        <h3>{title}</h3>
 
-        { name === username &&
-
-        <ContainerIcons>
-          <img src={DeleteIcon} alt="Delete" onClick={() => setIsOpen(true)} />
-          <img src={EditIcon} alt="Edit" onClick={() => setIsEditing(true)} />
-        </ContainerIcons>
-
-        }
-
+        {name === username && (
+          <ContainerIcons>
+            <img
+              src={DeleteIcon}
+              alt="Delete"
+              onClick={() => setIsOpen(true)}
+            />
+            <img src={EditIcon} alt="Edit" onClick={() => setIsEditing(true)} />
+          </ContainerIcons>
+        )}
       </TitleHeader>
 
       <ContainerText>
         <ContainerAuthor>
-          <strong>{ username }</strong>
-          <span>{ moment(date).fromNow() }</span>
+          <strong>{username}</strong>
+          <span>{moment(date).fromNow()}</span>
         </ContainerAuthor>
 
-        <p>
-          { content }
-        </p>
+        <p>{content}</p>
       </ContainerText>
-
     </Container>
   );
 }

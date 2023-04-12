@@ -9,6 +9,8 @@ import { selectUser } from "../../../../redux/userSlice";
 import { useDispatch } from "react-redux";
 import { addPost } from "../../../../redux/listPostsSlice";
 
+import { db } from "../../../../actions/firebaseConnection"
+import { addDoc, collection } from "firebase/firestore"
 
 export default function CreatePost() {
   const [title, setTitle] = useState("")
@@ -18,7 +20,7 @@ export default function CreatePost() {
 
   const dispatch = useDispatch();
 
-  const handleCreatePost = (): void => {
+  const handleCreatePost = async () => {
     console.log("LOGIN");
 
     const newDate = new Date().toString()
@@ -32,6 +34,8 @@ export default function CreatePost() {
     }
 
     dispatch(addPost(newPost));
+
+    await addDoc(collection(db, "posts"), newPost)
 
     setTitle("")
     setContent("")

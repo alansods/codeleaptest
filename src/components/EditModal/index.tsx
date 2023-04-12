@@ -6,6 +6,9 @@ import { Button } from "../Button/styles";
 import { useDispatch } from "react-redux";
 import { editPost } from "../../redux/listPostsSlice";
 
+import { db } from "../../actions/firebaseConnection";
+import { collection, doc, setDoc } from "firebase/firestore";
+
 import ReactDOM from "react-dom";
 interface ModalProps {
   isEditing: boolean;
@@ -45,6 +48,13 @@ export default function Modal({
     };
 
     dispatch(editPost(newPost));
+
+    // Defina a coleção que você deseja editar
+    const collectionRef = collection(db, "posts");
+
+    // Chame a função setDoc() para atualizar o documento na coleção
+    setDoc(doc(collectionRef, id), newPost)
+
     onClose();
   };
 
