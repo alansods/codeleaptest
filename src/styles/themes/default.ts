@@ -15,4 +15,5 @@ export const defaultTheme = {
   redHover: "#ff8678",
   green: "#47B960",
   greenHover: "#75cb88",
+  greenDisabled: "#c6e9c9"
 } as const;

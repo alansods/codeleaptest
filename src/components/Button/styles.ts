@@ -44,6 +44,10 @@ export const Button = styled.button<ButtonProps>`
     :hover {
     background-color: ${props => props.theme["greenHover"]}
   }
+  :disabled {
+    background-color: ${props => props.theme["greenDisabled"]};
+    cursor: not-allowed;
+  }
   `}
 
   ${props => props.variant === 'outline' && css`
