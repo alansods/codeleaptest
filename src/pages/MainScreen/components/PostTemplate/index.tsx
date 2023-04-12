@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import Modal from "../../../../components/Modal";
+import DeleteModal from "../../../../components/DeleteModal";
 import EditModal from "../../../../components/EditModal";
 
 import {
@@ -67,7 +67,7 @@ export default function PostTemplate({
 
   return (
     <Container>
-      <Modal
+      <DeleteModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         handleDeletePost={handleDeletePost}
