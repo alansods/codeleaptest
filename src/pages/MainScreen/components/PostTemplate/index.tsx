@@ -23,7 +23,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../../../../redux/userSlice";
 
 import { db } from "../../../../actions/firebaseConnection"
-import { doc, deleteDoc } from "firebase/firestore";
+import { collection, query, where, getDocs, deleteDoc } from "firebase/firestore";
 
 interface PostProps {
   id: string;
@@ -51,8 +51,18 @@ export default function PostTemplate({
     try {
       dispatch(deletePost(id));
 
-      const docRef = doc(db, "posts", id)
-      await deleteDoc(docRef);
+      // const docRef = doc(db, "posts", id)
+      // await deleteDoc(docRef);
+
+      const docRef = collection(db, 'posts');
+      const q = query(docRef, where('id', '==', id))
+
+      getDocs(q)
+        .then(querySnapshot => {
+          querySnapshot.forEach(itemDoc => {
+            deleteDoc(itemDoc.ref)
+          })
+        })
 
       console.log("DELETADO");
     } catch (err) {

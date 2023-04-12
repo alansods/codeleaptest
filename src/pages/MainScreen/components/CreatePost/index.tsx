@@ -33,6 +33,8 @@ export default function CreatePost() {
       content: content,
     }
 
+    console.log("ID newPost: " + newPost.id)
+
     dispatch(addPost(newPost));
 
     await addDoc(collection(db, "posts"), newPost)
