@@ -2,4 +2,4 @@
 
 ## Live Preview
 
-<a href="https://desafio-cadastro-funcionario-628wuyo5w-alansods.vercel.app/#/">https://desafio-cadastro-funcionario-628wuyo5w-alansods.vercel.app/#/</a>
+<a href="https://codeleaptest-five.vercel.app/">https://codeleaptest-five.vercel.app/</a>
